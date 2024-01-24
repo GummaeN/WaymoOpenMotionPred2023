@@ -1,4 +1,5 @@
 num_map_samples = 30000
+import tensorflow as tf
 
 # Example field definition
 _roadgraph_features = {
@@ -150,4 +151,4 @@ def get_tffeatures():
     features_description.update(state_features)
     features_description.update(traffic_light_features)
 
-    return features_description
+    return features_descriptionss
