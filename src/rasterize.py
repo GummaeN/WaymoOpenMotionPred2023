@@ -1,4 +1,4 @@
-
+import numpy as np
 
 def load_params(data, train = True):
    #data = tf.io.parse_single_example(data, features_description)
