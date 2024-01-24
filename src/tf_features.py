@@ -2,7 +2,7 @@ num_map_samples = 30000
 import tensorflow as tf
 
 # Example field definition
-_roadgraph_features = {
+roadgraph_features = {
     'roadgraph_samples/dir': tf.io.FixedLenFeature(
         [num_map_samples, 3], tf.float32, default_value=None
     ),
@@ -20,7 +20,7 @@ _roadgraph_features = {
     ),
 }
 # Features of other agents.
-_state_features = {
+state_features = {
     'scenario/id':
         tf.io.FixedLenFeature([1], tf.string, default_value=None),
     'state/id':
@@ -105,7 +105,7 @@ _state_features = {
         tf.io.FixedLenFeature([128, 10], tf.float32, default_value=None),
 }
 
-_traffic_light_features = {
+traffic_light_features = {
     'traffic_light_state/current/id':
         tf.io.FixedLenFeature([1, 16], tf.int64, default_value=None),
     'traffic_light_state/current/state':
@@ -147,8 +147,8 @@ _traffic_light_features = {
 def get_tffeatures():
 
     features_description = {}
-    features_description.update(_roadgraph_features)
-    features_description.update(_state_features)
-    features_description.update(_traffic_light_features)
+    features_description.update(roadgraph_features)
+    features_description.update(state_features)
+    features_description.update(traffic_light_features)
 
     return features_description
