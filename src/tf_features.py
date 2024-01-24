@@ -1,7 +1,7 @@
 num_map_samples = 30000
 
 # Example field definition
-roadgraph_features = {
+_roadgraph_features = {
     'roadgraph_samples/dir': tf.io.FixedLenFeature(
         [num_map_samples, 3], tf.float32, default_value=None
     ),
@@ -19,7 +19,7 @@ roadgraph_features = {
     ),
 }
 # Features of other agents.
-state_features = {
+_state_features = {
     'scenario/id':
         tf.io.FixedLenFeature([1], tf.string, default_value=None),
     'state/id':
@@ -104,7 +104,7 @@ state_features = {
         tf.io.FixedLenFeature([128, 10], tf.float32, default_value=None),
 }
 
-traffic_light_features = {
+_traffic_light_features = {
     'traffic_light_state/current/id':
         tf.io.FixedLenFeature([1, 16], tf.int64, default_value=None),
     'traffic_light_state/current/state':
