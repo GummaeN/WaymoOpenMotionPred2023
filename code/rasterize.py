@@ -106,7 +106,7 @@ def rasterize(params, track_to_pred, train = 'True'):
   if train:
     trans_gt_xy = ((gt_xy/pixel_scale) @ np.transpose(r_mat(yaw))) - shift_xy
     shift_gt = trans_gt_xy[:,0,:]
-    shift_gt = np.repeat(shift_gt[:, np.newaxis,:], 80, axis=1))
+    shift_gt = np.repeat(shift_gt[:, np.newaxis,:], 80, axis=1)
     trans_gt_xy = trans_gt_xy - shift_gt
   trans_road_xy = np.squeeze(((road_xy/pixel_scale)  @ np.transpose(r_mat(yaw)) - shift_xy))
   trans_agents_yaw = agents_yaw-yaw
