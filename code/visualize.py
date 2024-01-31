@@ -1,3 +1,5 @@
+import numpy as np
+
 def visualize(raster, pred, cluster_pred, target):
 
 
