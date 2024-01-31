@@ -262,7 +262,7 @@ def rasterize(params, track_to_pred, train = 'True'):
             "yaw": yaw,
             "shift": shift_xy,
             "gt": trans_gt_xy[track_to_pred > 0],
-            "gt_shift": shift_gt
+            "gt_shift": shift_gt,
             "scenario_id": params['scenario_id'],
             "ego_type": ego_type,
             "valid": np.squeeze(params['future_valid'][track_to_pred > 0])
