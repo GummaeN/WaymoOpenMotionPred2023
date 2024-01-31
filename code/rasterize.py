@@ -54,12 +54,11 @@ def r_mat(yaw):
 from google.colab.patches import cv2_imshow
 
 def rasterize(params, track_to_pred, train = 'True'):
-  #Input params, output rastered params ((25,224,224), gt)
-  #Input params, output rastered params ((25,224,224), gt)
-  #Input params, output rastered params ((13,128,128), gt)
+  #Input params, output rastered params ((13,224,224), gt)
+
   # (1:3,224,224) represent roadgraphs and trafic lights
-  # (4:14,224,224) Track to predict agent history xy
-  # (15:25,224,224) All other agents history xy
+  # (4:8,224,224) Track to predict agent history xy
+  # (9:13,224,224) All other agents history xy
 
 
   raster_size = 224
@@ -107,6 +106,7 @@ def rasterize(params, track_to_pred, train = 'True'):
   if train:
     trans_gt_xy = ((gt_xy/pixel_scale) @ np.transpose(r_mat(yaw))) - shift_xy
     shift_gt = trans_gt_xy[:,0,:]
+    shift_gt = np.repeat(shift_gt[:, np.newaxis,:], 80, axis=1))
     trans_gt_xy = trans_gt_xy - shift_gt
   trans_road_xy = np.squeeze(((road_xy/pixel_scale)  @ np.transpose(r_mat(yaw)) - shift_xy))
   trans_agents_yaw = agents_yaw-yaw
