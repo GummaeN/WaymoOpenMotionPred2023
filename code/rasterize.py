@@ -63,7 +63,7 @@ def rasterize(params, track_to_pred, train = 'True'):
 
   raster_size = 224
   ego_center=np.array([0.25, 0.5])
-  pixel_scale=0.7
+  pixel_scale=0.65
   hist_channels = 5
 
   agents_xy = np.concatenate(
