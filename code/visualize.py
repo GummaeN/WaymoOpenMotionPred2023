@@ -118,7 +118,7 @@ def visualize(raster, pred, cluster_pred, target):
 
 
   data = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
-  data = data.reshape(fig.canvas.get_width_height() + (3,))
+  data = data.reshape(fig.canvas.get_width_height()[::-1] + (3,))
   data = data.astype(np.uint16)
   tmp_data = data.copy()
   data[:,:,0] = tmp_data[:,:,2]
