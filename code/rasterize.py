@@ -229,7 +229,7 @@ def rasterize(params, track_to_pred, train = 'True'):
       cv2.fillPoly(
                         track_channels[i],
                         t_bbpoints.astype(int),
-                        color= int(color[0])-(55*(2-j)),
+                        color= int(col[0])-(55*(2-j)),
                          #color= 60+(45*(i))-(15*(2-j))
                          )
 
