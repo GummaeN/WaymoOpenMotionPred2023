@@ -131,7 +131,7 @@ def visualize(raster, pred, cluster_pred, target):
   data[:,:,2][data[:,:,2] > 255] = 255
 
 
-  img_new = cv2.addWeighted(data, 1, res, 1, 0)
+  img_new = cv2.addWeighted(data, 1, res[::-1], 1, 0)
 
   img_new[img_new == 0] = 15
 
