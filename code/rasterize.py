@@ -105,6 +105,7 @@ def rasterize(params, track_to_pred, train = 'True'):
 
   if train:
     trans_gt_xy = ((gt_xy/pixel_scale) @ np.transpose(r_mat(yaw))) - shift_xy
+    print(trans_gt_xy.shape)
     shift_gt = raster_size*ego_center
     shift_gt = np.repeat(shift_gt[:, np.newaxis,:], 80, axis=1)
     trans_gt_xy = trans_gt_xy - shift_gt
