@@ -12,7 +12,7 @@ from matplotlib.collections import LineCollection
 from matplotlib.colors import LinearSegmentedColormap
 
 
-def visualize(raster, pred, cluster_pred, target):
+def visualize(raster, pred, cluster_pred, target, gt_valid):
 
 
   raster = np.transpose(np.squeeze(raster),(1,2,0))
@@ -73,9 +73,8 @@ def visualize(raster, pred, cluster_pred, target):
     lc.set_array(x)
     line = ax.add_collection(lc)
   
-
-  x = target[:,0]
-  y = target[:,1]
+  x = target[:,0][gt_valid > 0]
+  y = target[:,1][gt_valid > 0]
   plt.plot(x,y,color = 'yellow',linewidth=2, zorder = 2)
 
 
