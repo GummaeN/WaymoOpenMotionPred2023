@@ -97,7 +97,7 @@ def rasterize(params, track_to_pred, train = 'True'):
 
 
   rot_agents_xy = (agents_xy/pixel_scale) @ np.transpose(r_mat(yaw))
-  shift_xy = rot_agents_xy[:,9][track_to_pred > 0] - raster_size*ego_center
+  shift_xy = rot_agents_xy[:,10][track_to_pred > 0] - raster_size*ego_center
   trans_agents_xy = rot_agents_xy - shift_xy
 
   shift_gt = []
@@ -107,7 +107,7 @@ def rasterize(params, track_to_pred, train = 'True'):
     trans_gt_xy = ((gt_xy/pixel_scale) @ np.transpose(r_mat(yaw))) - shift_xy
     #print(trans_gt_xy.shape)
     #shift_gt = raster_size*ego_center
-    shift_gt = trans_gt_xy[:,9,:]
+    shift_gt = trans_gt_xy[:,0,:]
     shift_gt = np.repeat(shift_gt[:, np.newaxis,:], 80, axis=1)
     trans_gt_xy = trans_gt_xy - shift_gt
   trans_road_xy = np.squeeze(((road_xy/pixel_scale)  @ np.transpose(r_mat(yaw)) - shift_xy))
