@@ -104,12 +104,12 @@ def rasterize(params, track_to_pred, train = 'True'):
 
 
   if train:
-    trans_gt_xy = ((gt_xy/pixel_scale) @ np.transpose(r_mat(yaw))) - shift_xy
+    trans_gt_xy_old = ((gt_xy/pixel_scale) @ np.transpose(r_mat(yaw))) - shift_xy
     #print(trans_gt_xy.shape)
     #shift_gt = raster_size*ego_center
-    shift_gt = trans_gt_xy[:,0,:]
+    shift_gt = trans_gt_xy_old[:,0,:]
     shift_gt = np.repeat(shift_gt[:, np.newaxis,:], 80, axis=1)
-    trans_gt_xy = trans_gt_xy - shift_gt
+    trans_gt_xy = trans_gt_xy_old - shift_gt
   trans_road_xy = np.squeeze(((road_xy/pixel_scale)  @ np.transpose(r_mat(yaw)) - shift_xy))
   trans_agents_yaw = agents_yaw-yaw
 
@@ -217,13 +217,13 @@ def rasterize(params, track_to_pred, train = 'True'):
   bbpoints = np.array([[-ego_l/2,  ego_w/2], [ego_l/2 , ego_w/2], [ego_l/2, -ego_w/2], [-ego_l/2, -ego_w/2]], np.float32)
   for i in range(hist_channels):
     for j in range(3):
-      angle = trans_agents_yaw[:,10-(j+(i*2))][track_to_pred > 0]
+      angle = trans_agents_yaw[:,(j+(i*2))][track_to_pred > 0]
 
-      t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + ego_xy[0,10-(j+(i*2))]
+      t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + ego_xy[0,j+(i*2)]
       cv2.fillPoly(
                         track_channels[i],
                         t_bbpoints.astype(int),
-                        color= 255-col_adj-(65*j))
+                        color= 255-col_adj-(65*(2-j)))
                          #color= 60+(45*(i))-(15*(2-j))
                          
 
@@ -242,16 +242,16 @@ def rasterize(params, track_to_pred, train = 'True'):
 
       for i in range(hist_channels):
         for j in range(3):
-          angle = trans_agents_yaw[:,10-(j+(i*2))][agents_id == id][0]
+          angle = trans_agents_yaw[:,(j+(i*2))][agents_id == id][0]
 
-          t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + trans_agents_xy[:,10-(j+(i*2))][agents_id == id]
+          t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + trans_agents_xy[:,(j+(i*2))][agents_id == id]
 
           if ((t_bbpoints.max() < raster_size) & (t_bbpoints.min() > 0)):
             cv2.polylines(
                               agent_channels[i],
                               [np.int32([t_bbpoints])],
                               True,
-                              color= 255-(65*(j)))
+                              color= 255-(65*(2-j)))
 
 
 
@@ -263,6 +263,7 @@ def rasterize(params, track_to_pred, train = 'True'):
             "raster": raster,
             "yaw": yaw,
             "shift": shift_xy,
+            "gt_old": trans_gt_xy_old[track_to_pred > 0],
             "gt": trans_gt_xy[track_to_pred > 0],
             "gt_shift": shift_gt,
             "scenario_id": params['scenario_id'],
