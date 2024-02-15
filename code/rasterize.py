@@ -209,7 +209,7 @@ def rasterize(params, track_to_pred, train = 'True'):
 
   
   ego_type = params['agent_type'][track_to_pred > 0]
-  col_adj = ego_type * 10
+  col_adj = int(ego_type) * 10
   ego_id = agents_id[track_to_pred>0]
   ego_xy = trans_agents_xy[:,:][track_to_pred > 0]
   ego_w = (np.squeeze(params['width'][track_to_pred > 0]))/pixel_scale
@@ -251,7 +251,7 @@ def rasterize(params, track_to_pred, train = 'True'):
                               agent_channels[i],
                               [np.int32([t_bbpoints])],
                               True,
-                              color= 255-(85*(j)))
+                              color= 255-(65*(j)))
 
 
 
