@@ -31,7 +31,7 @@ def visualize(raster, pred, cluster_pred, target, gt_valid):
   img[:,:,2][img[:,:,2] > 255] = 170
 
 
-  img_over[:,:,1] = raster[:,:,7]*255+raster[:,:,12]*200
+  img_over[:,:,1] = raster[:,:,3]*255+raster[:,:,8]*200
   img_over[:,:,2] = (raster[:,:,1]+raster[:,:,0])*255
   img_over[:,:,2][img_over[:,:,2] > 255] = 255
   img_over[:,:,1][img_over[:,:,1] > 255] = 255

@@ -63,7 +63,7 @@ def rasterize(params, track_to_pred, train = 'True'):
 
   raster_size = 224
   ego_center=np.array([0.25, 0.5])
-  pixel_scale=0.55
+  pixel_scale=0.6
   hist_channels = 5
 
   agents_xy = np.concatenate(
@@ -207,15 +207,9 @@ def rasterize(params, track_to_pred, train = 'True'):
                     )
 
 
-  EgoColorMap = {0:180,
-                1:255,
-                2:225,
-                3: 200,
-                4:180
-              }
-
+  
   ego_type = params['agent_type'][track_to_pred > 0]
-  col = pd.Series(ego_type).map(EgoColorMap)
+  col_adj = ego_type * 10
   ego_id = agents_id[track_to_pred>0]
   ego_xy = trans_agents_xy[:,:][track_to_pred > 0]
   ego_w = (np.squeeze(params['width'][track_to_pred > 0]))/pixel_scale
@@ -223,15 +217,15 @@ def rasterize(params, track_to_pred, train = 'True'):
   bbpoints = np.array([[-ego_l/2,  ego_w/2], [ego_l/2 , ego_w/2], [ego_l/2, -ego_w/2], [-ego_l/2, -ego_w/2]], np.float32)
   for i in range(hist_channels):
     for j in range(3):
-      angle = trans_agents_yaw[:,j+(i*2)][track_to_pred > 0]
+      angle = trans_agents_yaw[:,10-(j+(i*2))][track_to_pred > 0]
 
-      t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + ego_xy[0,j+(i*2)]
+      t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + ego_xy[0,10-(j+(i*2))]
       cv2.fillPoly(
                         track_channels[i],
                         t_bbpoints.astype(int),
-                        color= int(col[0])-(55*(2-j)),
+                        color= 255-col_adj-(65*j))
                          #color= 60+(45*(i))-(15*(2-j))
-                         )
+                         
 
 
 
@@ -248,16 +242,16 @@ def rasterize(params, track_to_pred, train = 'True'):
 
       for i in range(hist_channels):
         for j in range(3):
-          angle = trans_agents_yaw[:,j+(i*2)][agents_id == id][0]
+          angle = trans_agents_yaw[:,10-(j+(i*2))][agents_id == id][0]
 
-          t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + trans_agents_xy[:,j+(i*2)][agents_id == id]
+          t_bbpoints = (bbpoints @ np.transpose(r_mat(-angle))) + trans_agents_xy[:,10-(j+(i*2))][agents_id == id]
 
           if ((t_bbpoints.max() < raster_size) & (t_bbpoints.min() > 0)):
             cv2.polylines(
                               agent_channels[i],
                               [np.int32([t_bbpoints])],
                               True,
-                              color= 255-(85*(2-j)))
+                              color= 255-(85*(j)))
 
 
 
