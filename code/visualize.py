@@ -57,7 +57,7 @@ def visualize(raster, pred, cluster_pred, target, gt_valid):
     x = cluster_pred[i,:,0]
     y = cluster_pred[i,:,1]
 
-    t1 = 	(206,162,253)
+    t1 = 	(255-i*25,162+7*i,253-i*10)
     t2 = 	(83,0,100)
 
 
